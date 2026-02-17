@@ -1,134 +1,127 @@
-# Market-Implied Credit Risk and Relative Value in Corporate Bond Spreads
+# Market-Implied Credit Risk from Corporate Bond Spreads
 
-This project studies how corporate bond spreads embed information about default risk and relative value in credit markets.
+This project explores how corporate bond spreads can be interpreted as market-implied measures of default risk and how they relate to macro-financial conditions.
 
-Using FRED data, it combines simple reduced-form credit intuition with empirical analysis to replicate how a credit trader might interpret spread dynamics.
+Using public data from FRED, the notebook combines simple credit risk intuition with empirical analysis to understand what spreads may signal about credit risk and the macro environment.
 
-The objective is not full pricing accuracy, but market intuition and signal extraction.
+The objective is not to build a full pricing model, but to develop practical market intuition around credit spreads.
 
 ---
 
 # Motivation
 
-Corporate credit spreads reflect:
+Credit spreads are closely watched by traders because they react quickly to changes in risk sentiment, liquidity conditions, and macro expectations.
 
-• expected default losses  
-• risk premia  
-• macro and market conditions  
+A widening spread can reflect deteriorating fundamentals, higher perceived default risk, or simply a shift in risk appetite. However, spreads are often discussed in isolation.
 
-Rather than treating spreads as raw data, this project interprets them through credit risk theory and simple empirical models.
+A natural question is:
 
-This mirrors how traders think about spread levels and dislocations.
+**What does a given spread level imply in terms of default risk?**
+
+This project starts from that question and builds a simple framework to translate spreads into structural credit measures.
+
+The aim is to move from "spread watching" to a more risk-based interpretation.
 
 ---
 
 # Data
 
-Data is sourced from FRED (Federal Reserve Bank of St. Louis):
+The analysis relies on FRED time series, including:
 
-• Investment Grade OAS  
-• BBB OAS  
+• US BBB corporate OAS  
+• US Investment Grade OAS  
+• US 2-Year Treasury yield  
 
-A free FRED API key is required.
+FRED provides transparent and reliable macro-financial data suitable for exploratory credit analysis.
 
-Create a `.env` file:
+A free FRED API key is required to run the notebook.
+
+Users can create a `.env` file containing:
 
 FRED_API_KEY=YOUR_KEY
 
-(`.env.example` provided)
-
----
 
 # Methodology
 
-## 1) Market-Implied Default Risk
+## From spreads to default risk
 
-Using a reduced-form approximation:
+A simple reduced-form intuition links spreads and default risk:
 
-spread ≈ (1 − Recovery) × hazard rate
+spread ≈ (1 − recovery) × hazard rate
 
-Assuming a 40% recovery rate, the project derives:
+Assuming a constant recovery rate of 40%, spreads can be translated into implied hazard rates and survival probabilities.
 
-• implied hazard rates  
-• survival probabilities  
-• stylized fair CDS spreads  
-
-This provides a structural interpretation of spreads.
+This is a first-order approximation, but it provides an interpretable mapping between spreads and default risk.
 
 ---
 
-## 2) Credit Beta via OLS
+## From hazard rates to CDS intuition
 
-An OLS regression relates BBB spreads to IG spreads:
+Using the implied hazard rate, a stylized fair CDS spread is computed under simplifying assumptions.
 
-BBB_spread = α + β × IG_spread + ε
-
-Interpretation:
-
-• β → credit beta (systematic sensitivity)  
-• residuals → relative value signal  
-
-This mimics how desks monitor spread relationships.
+This connects bond spreads to CDS-style credit thinking, even though the framework remains simplified.
 
 ---
 
-## 3) Relative Value Signal
+## Macro–credit relationship
 
-Residuals from the regression capture deviations from model value:
+The analysis then studies how changes in credit risk relate to changes in interest rates.
 
-• positive residual → potentially cheap  
-• negative residual → potentially rich  
+An OLS regression links:
 
-This is a simplified proxy for RV monitoring.
+Δ hazard rate  
+to  
+Δ 2-year Treasury yield
+
+The slope coefficient can be interpreted as a macro-credit sensitivity, indicating how credit risk tends to co-move with rates.
+
+A rolling regression is also implemented to show that this relationship is time-varying.
+
+This mirrors how practitioners monitor regime changes in credit markets.
 
 ---
 
-## 4) Stylized Backtest
+# Key Insights
 
-A simple backtest evaluates how spreads behave after large deviations from model-implied value.
+The notebook illustrates that:
 
-This is illustrative rather than a tradable strategy.
+• Spreads can be translated into default-risk measures  
+• Simple assumptions already improve interpretability  
+• Credit risk and rates exhibit time-varying relationships  
+• Rolling estimates highlight changing market regimes
 
----
-
-# Key Takeaways
-
-• Credit spreads can be translated into default risk measures  
-• Spread relationships exhibit stable co-movements  
-• Deviations from these relationships may indicate dislocations  
-• Even simple models provide useful market intuition  
+Even a stylized framework can make spread dynamics more intuitive.
 
 ---
 
 # Limitations
 
-This project uses simplifying assumptions:
+This framework relies on strong simplifications:
 
 • constant recovery rate  
 • flat hazard rates  
-• simple OLS framework  
-• no liquidity or transaction costs  
-• no structural credit modeling  
+• no liquidity or risk-premium decomposition  
+• simple linear macro relationship
 
-The goal is intuition, not production-grade pricing.
+The project is best viewed as an intuition-building exercise rather than a pricing tool.
 
 ---
 
 # Possible Extensions
 
-• Multi-factor credit models  
-• Regime-dependent betas  
-• CDS-bond basis analysis  
-• Macro-linked spread modeling  
-• Z-score based RV signals  
+Natural extensions include:
+
+• time-varying recovery assumptions  
+• multi-factor macro models  
+• CDS–bond basis analysis  
+• regime-switching models
 
 ---
 
 # Author
 
 Louis Pochet  
-Master in Financial Analysis
-
+Master in Financial Analysis  
 ---
 
 *Personal project — not investment advice.*
