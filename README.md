@@ -1,5 +1,8 @@
 # Market-Implied Credit Risk from Corporate Bond Spreads
 
+![Tests](https://github.com/Louis-Pochet/market-implied-credit-risk/actions/workflows/tests.yml/badge.svg)
+
+
 This project explores how corporate bond spreads can be interpreted as market-implied measures of default risk and how they relate to macro-financial conditions.
 
 Using public data from FRED, the notebook combines simple credit risk intuition with empirical analysis to understand what spreads may signal about credit risk and the macro environment.
