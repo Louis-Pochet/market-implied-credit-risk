@@ -9,6 +9,8 @@ Using public data from FRED, the notebook combines simple credit risk intuition 
 
 The objective is not to build a full pricing model, but to develop practical market intuition around credit spreads.
 
+The project now includes a small reusable Python module, `src/creditlab/implied.py`, together with unit tests and GitHub Actions. The notebook uses FRED data for the empirical analysis, while the tests use controlled numerical examples and do not depend on external data.
+
 ---
 
 # Motivation
@@ -43,6 +45,7 @@ Users can create a `.env` file containing:
 
 FRED_API_KEY=YOUR_KEY
 
+The unit tests do not require a FRED API key. They only validate the core credit-risk logic with simple numerical inputs.
 
 # Methodology
 
@@ -83,6 +86,33 @@ A rolling regression is also implemented to show that this relationship is time-
 This mirrors how practitioners monitor regime changes in credit markets.
 
 ---
+
+---
+
+# Code and Tests
+
+The reusable credit-risk functions are located in:
+
+```text
+src/creditlab/implied.py
+```
+
+They include:
+
+```python
+hazard_rate_from_spread
+survival_probability
+default_probability
+```
+
+To run the tests:
+
+```bash
+pip install -e .
+python -m pytest
+```
+
+GitHub Actions runs these tests automatically after each push.
 
 # Key Insights
 
